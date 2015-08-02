@@ -225,7 +225,7 @@
         # define.
         'defines': ['CR_CLANG_REVISION=<!(<(DEPTH)/tools/clang/scripts/update.sh --print-revision)'],
         'cflags+': [
-          '-Wno-format-pedantic',
+        #  '-Wno-format-pedantic',
         ],
       }],
     ],
