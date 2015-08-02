@@ -1,7 +1,7 @@
 #!/bin/sh
 
 V8VER=4.4.63.25;
-V8DIR=v8-dev-$V8VER;
+V8DIR=v8-dev-$V8VER-`uname -s`-x64;
 CC=clang;
 CXX=clang++;
 LINK=clang++;
