@@ -12,17 +12,20 @@ mkdir -p $V8DIR/bin;
 mkdir -p $V8DIR/lib;
 mkdir -p $V8DIR/include;
 
-## copy platform library
-if [ -f "out/x64.release/obj.target/tools/gyp/libv8_libplatform.a" ]
-then
-  cp out/x64.release/obj.target/tools/gyp/libv8_libplatform.a $V8DIR/lib/;
-elif [ -f "out/x64.release/libv8_libplatform.a" ]
-then
-  cp out/x64.release/libv8_libplatform.a $V8DIR/lib/;
-else
-  echo "The v8 platform static library not found!!!";
-  exit 1;
-fi
+## copy libraries
+for filename in libv8_base.a libv8_libplatform.a libv8_nosnapshot.a libv8_snapshot.a libv8_libbase.a
+do
+  if [ -f "out/x64.release/obj.target/tools/gyp/$filename" ]
+  then
+    cp out/x64.release/obj.target/tools/gyp/$filename $V8DIR/lib/;
+  elif [ -f "out/x64.release/$filename" ]
+  then
+    cp out/x64.release/libv8_libplatform.a $V8DIR/lib/;
+  else
+    echo "The v8 static libraries are not found!!!";
+    exit 1;
+  fi
+done
 
 ## copy libv8.so.VERSION
 if [ -f "out/x64.release/lib.target/libv8.so.$V8VER" ]
@@ -32,7 +35,7 @@ elif [ -f "out/x64.release/libv8.so.$V8VER" ]
 then
   cp out/x64.release/libv8.so.$V8VER $V8DIR/lib/;
 else
-  echo "The v8 shared library not found!!!";
+  echo "The v8 shared library is not found!!!";
   exit 1;
 fi
 ln -sr $V8DIR/lib/libv8.so.$V8VER $V8DIR/lib/libv8.so;
