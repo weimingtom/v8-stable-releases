@@ -3,8 +3,14 @@
 export V8VER=4.4.63.25;
 export V8DIR=v8-dev-$V8VER-`uname -s`-x64;
 export CC=clang;
-export CXX=clang++;
+if [ `uname -s` != "Darwin" ]
+then
+  export CXX=clang++;
+else
+  export CXX="clang++ -stdlib=libc++";
+fi
 export LINK=$CXX;
+export GYP_DEFINES="mac_deployment_target=10.7";
 
 make -j4 x64.release library=shared soname_version=$V8VER i18nsupport=off &&
 rm -rf $V8DIR;
